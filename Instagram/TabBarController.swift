@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
@@ -21,6 +22,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.scrollEdgeAppearance = appearance
         // UITabBarControllerDelegateプロトコルのメソッドをこのクラスで処理する。
         self.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // currentUserがnilならログインしていない
+        if Auth.auth().currentUser == nil {
+            // ログインしていないときの処理
+            let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            //present(_:animated:completion:)メソッドでモーダル画面遷移
+            self.present(loginViewController!, animated: true, completion: nil)
+        }
     }
     
     // タブバーのアイコンがタップされた時に呼ばれるdelegateメソッドを処理する。
@@ -40,14 +53,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */
-
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
